@@ -22,13 +22,13 @@ export function FinalUnlockScreen({ onNext }: { onNext: () => void }) {
   }
 
   return (
-    <div className="space-y-12 py-6 flex flex-col flex-1">
-      <div className="text-center space-y-4">
-        <h2 className="text-4xl font-heading text-retro-cyan drop-shadow-[0_0_15px_rgba(61,224,210,0.8)] uppercase tracking-widest">FINAL UNLOCK</h2>
-        <p className="font-sans text-gray-300 text-lg">Unscramble the station codes and solve the final question.</p>
+    <div className="space-y-12 py-6 flex flex-col flex-1 animate-in fade-in duration-700">
+      <div className="text-center space-y-4 animate-in slide-in-from-top-4 duration-700 delay-100 fill-mode-both">
+        <h2 className="text-5xl font-heading text-retro-cyan drop-shadow-[0_0_20px_rgba(61,224,210,0.8)] uppercase tracking-widest">FINAL UNLOCK</h2>
+        <p className="font-sans text-white/80 text-lg">Unscramble the station codes and solve the final question.</p>
       </div>
 
-      <div className="space-y-8 flex-1">
+      <div className="space-y-8 flex-1 animate-in zoom-in-95 duration-700 delay-300 fill-mode-both">
         <div className="space-y-4 font-sans bg-glass p-6 rounded-lg">
           <div className="flex items-center gap-4 group">
             <span className="font-mono text-xl text-retro-pink font-bold w-24 tracking-widest group-hover:text-white transition-colors">JPECTOR</span>
@@ -78,7 +78,7 @@ export function FinalUnlockScreen({ onNext }: { onNext: () => void }) {
         {error && <p className="text-retro-pink animate-pulse font-mono font-bold text-center bg-retro-pink/10 p-3 rounded-sm border border-retro-pink/30">ACCESS DENIED. INCORRECT CODES OR FINAL ANSWER.</p>}
       </div>
 
-      <div className="pb-8 pt-4">
+      <div className="pb-8 pt-4 animate-in fade-in duration-700 delay-500 fill-mode-both">
         <Button onClick={checkAnswer} className="w-full shadow-[0_0_20px_rgba(61,224,210,0.4)]">INITIALIZE UNLOCK</Button>
       </div>
     </div>
