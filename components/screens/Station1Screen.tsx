@@ -53,6 +53,7 @@ export function Station1Screen({
   const [clue2Error, setClue2Error] = useState(false)
   
   const [unlocked, setUnlocked] = useState(false)
+  const [showIntro, setShowIntro] = useState(true)
 
   const checkAnswers = () => {
     let isValid = true
@@ -84,6 +85,20 @@ export function Station1Screen({
     if (isValid) {
       setUnlocked(true)
     }
+  }
+
+  if (showIntro) {
+    return (
+      <div className="flex flex-col flex-1 items-center justify-center space-y-8 animate-in fade-in zoom-in px-4 py-12">
+        <div className="text-7xl drop-shadow-[0_0_20px_rgba(61,224,210,0.6)]">🌍</div>
+        <p className="text-lg text-white/90 text-center font-sans leading-relaxed max-w-md bg-glass p-6 rounded-lg border border-retro-cyan/30">
+          A critical HR project is stalled. A cross-regional dependency has been missed and no one knows who owns it. Two clues stand between the project and progress. It's your role to unblock it.
+        </p>
+        <Button onClick={() => setShowIntro(false)} className="mt-4 shadow-[0_0_20px_rgba(232,38,181,0.4)] px-12">
+          BEGIN
+        </Button>
+      </div>
+    )
   }
 
   if (unlocked) {

@@ -19,6 +19,7 @@ export function Station3Screen({
   const [clue2Error, setClue2Error] = useState(false)
   
   const [unlocked, setUnlocked] = useState(false)
+  const [showIntro, setShowIntro] = useState(true)
 
   const checkAnswers = () => {
     let isValid = true
@@ -46,6 +47,20 @@ export function Station3Screen({
     if (isValid) {
       setUnlocked(true)
     }
+  }
+
+  if (showIntro) {
+    return (
+      <div className="flex flex-col flex-1 items-center justify-center space-y-8 animate-in fade-in zoom-in px-4 py-12">
+        <div className="text-7xl drop-shadow-[0_0_20px_rgba(61,224,210,0.6)]">🤖</div>
+        <p className="text-lg text-white/90 text-center font-sans leading-relaxed max-w-md bg-glass p-6 rounded-lg border border-retro-cyan/30">
+          An automated HR report has been sending incorrect data for three days. No one noticed until an HR partner flagged it. Find the break in the workflow before the next report runs. You have 3 minutes.
+        </p>
+        <Button onClick={() => setShowIntro(false)} className="mt-4 shadow-[0_0_20px_rgba(232,38,181,0.4)] px-12">
+          BEGIN
+        </Button>
+      </div>
+    )
   }
 
   if (unlocked) {
