@@ -21,13 +21,19 @@ const STATION_NAMES = {
 export default function GameRunner() {
   const gameState = useGameState()
   const [currentTeamName, setCurrentTeamName] = useState<string>('')
+  const [currentVenue, setCurrentVenue] = useState<string>('Manila')
 
-  const handleLeaderboardSubmit = async (teamName: string, venue: string, finalTimeSeconds: number) => {
+  const handleStartGame = (teamName: string, venue: string) => {
     setCurrentTeamName(teamName)
+    setCurrentVenue(venue)
+    gameState.startGame()
+  }
+
+  const handleLeaderboardSubmit = async (finalTimeSeconds: number) => {
     try {
       await supabase.from('leaderboard').insert([{
-        team_name: teamName || null,
-        venue,
+        team_name: currentTeamName,
+        venue: currentVenue,
         final_time_seconds: finalTimeSeconds
       }])
     } catch (e) {
@@ -37,7 +43,7 @@ export default function GameRunner() {
   }
 
   if (gameState.screen === "start") {
-    return <StartScreen onStart={gameState.startGame} />
+    return <StartScreen onStart={handleStartGame} />
   }
 
   const isStation = ["station1", "station2", "station3"].includes(gameState.screen)

@@ -11,10 +11,8 @@ export function ResultsScreen({
   masterTimer: number
   elapsedRealTime: number
   hintPenalties: number
-  onViewLeaderboard: (teamName: string, venue: string, totalSeconds: number) => Promise<void>
+  onViewLeaderboard: (totalSeconds: number) => Promise<void>
 }) {
-  const [teamName, setTeamName] = useState('')
-  const [venue, setVenue] = useState('Manila')
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   const isTimeUp = masterTimer === 0
@@ -22,7 +20,7 @@ export function ResultsScreen({
 
   const handleSubmit = async () => {
     setIsSubmitting(true)
-    await onViewLeaderboard(teamName.trim(), venue, finalTimeSeconds)
+    await onViewLeaderboard(finalTimeSeconds)
   }
 
   return (
@@ -47,25 +45,9 @@ export function ResultsScreen({
         <p className="text-white font-semibold">Together, we are the project engine behind HR. If you are launching something, changing something, or reporting on something — come find us early.</p>
       </div>
 
-      <div className="space-y-4 pt-4 border-t border-white/20">
-        <h3 className="font-heading text-lg text-retro-pink text-center">JOIN LEADERBOARD</h3>
-        <input 
-          className="w-full bg-retro-bg border-2 border-retro-cyan/50 text-white p-4 font-sans outline-none focus:border-retro-cyan"
-          value={teamName}
-          onChange={(e) => setTeamName(e.target.value)}
-          placeholder="Team Name (Optional)"
-          maxLength={30}
-        />
-        <select 
-          className="w-full bg-retro-bg border-2 border-retro-cyan/50 text-white p-4 font-sans outline-none focus:border-retro-cyan"
-          value={venue}
-          onChange={(e) => setVenue(e.target.value)}
-        >
-          <option value="Manila">Manila MPRs</option>
-          <option value="Cebu">Cebu</option>
-        </select>
+      <div className="pt-4 border-t border-white/20">
         <Button onClick={handleSubmit} disabled={isSubmitting} className="w-full">
-          {isSubmitting ? 'Saving...' : 'View Leaderboard'}
+          {isSubmitting ? 'Saving...' : 'Submit Score & View Leaderboard'}
         </Button>
       </div>
     </div>
