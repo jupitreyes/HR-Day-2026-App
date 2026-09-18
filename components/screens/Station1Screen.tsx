@@ -185,7 +185,7 @@ export function Station1Screen({
 
         <div className="space-y-6">
           <div className="text-lg leading-relaxed text-white/90 font-sans">
-            Find a 1-hour window where everyone is within business hours (8AM–6PM local).<br/>
+            Find the <strong>earliest available 1-hour window</strong> where everyone is within business hours (8AM–6PM local).<br/>
             Select the correct hour for each location:
           </div>
           
