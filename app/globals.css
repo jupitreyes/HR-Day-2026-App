@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 :root {
-  --background: #1A0B2E;
+  --background: #0B0A10; /* Darker cyberpunk background */
   --foreground: #ffffff;
 }
 
@@ -11,8 +11,10 @@
   --color-retro-pink: #E826B5;
   --color-retro-cyan: #3DE0D2;
   --color-retro-yellow: #FACC15;
-  --font-heading: var(--font-press-start);
-  --font-body: var(--font-vt323);
+  --font-heading: var(--font-orbitron);
+  --font-body: var(--font-jetbrains);
+  --font-sans: var(--font-jetbrains);
+  --font-mono: var(--font-jetbrains);
 }
 
 body {
@@ -23,12 +25,19 @@ body {
 
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-heading);
-  letter-spacing: -0.05em;
-  font-weight: 400;
+  letter-spacing: 0.05em;
+  font-weight: 700;
+}
+
+/* Glassmorphism utility */
+.bg-glass {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 /* Halftone dot pattern background utility */
 .bg-halftone {
-  background-image: radial-gradient(var(--color-retro-pink) 1px, transparent 1px);
+  background-image: radial-gradient(rgba(61, 224, 210, 0.15) 1px, transparent 1px);
   background-size: 4px 4px;
 }

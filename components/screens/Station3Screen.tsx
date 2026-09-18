@@ -51,12 +51,12 @@ export function Station3Screen({
   if (unlocked) {
     return (
       <div className="flex flex-col flex-1 items-center justify-center space-y-12 animate-in fade-in zoom-in">
-        <h2 className="text-4xl text-retro-cyan drop-shadow-[0_0_10px_rgba(61,224,210,0.8)]">SUCCESS</h2>
-        <div className="space-y-4 text-center">
-          <p className="text-gray-400 uppercase tracking-widest text-sm font-sans">Station Code Revealed</p>
+        <h2 className="text-4xl text-retro-cyan drop-shadow-[0_0_15px_rgba(61,224,210,0.8)] font-heading">ACCESS GRANTED</h2>
+        <div className="space-y-4 text-center w-full max-w-sm">
+          <p className="text-retro-cyan/70 uppercase tracking-widest text-sm font-sans">Station Code Revealed</p>
           <CodeBox code="TMEN" />
         </div>
-        <Button onClick={onNext}>Continue to Final Unlock</Button>
+        <Button onClick={onNext} className="mt-8">Continue to Final Unlock</Button>
       </div>
     )
   }
@@ -64,59 +64,65 @@ export function Station3Screen({
   return (
     <div className="space-y-12 py-6">
       {/* CLUE 1 */}
-      <div className="space-y-6">
-        <div className="flex items-center justify-between">
-          <h3 className="text-xl font-heading text-retro-pink">CLUE 1 OF 2</h3>
+      <div className="bg-glass p-6 md:p-8 space-y-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <h3 className="text-xl font-heading text-retro-pink flex items-center gap-2">
+            <span className="w-2 h-2 bg-retro-pink animate-pulse" />
+            CLUE 1 OF 2
+          </h3>
           <Button 
             variant="ghost" 
-            className="!px-3 !py-1 !text-sm w-auto font-sans font-semibold tracking-normal" 
+            className="!px-4 !py-2 !text-xs w-auto font-sans font-semibold tracking-widest" 
             onClick={() => useHint('st3-c1')}
             disabled={hintsUsed['st3-c1']}
           >
-            {hintsUsed['st3-c1'] ? 'Hint Used' : 'Use Hint (+1 min)'}
+            {hintsUsed['st3-c1'] ? 'Hint Active' : 'Request Hint (+1 min)'}
           </Button>
         </div>
         
         {hintsUsed['st3-c1'] && (
-          <div className="p-4 border border-retro-yellow text-retro-yellow bg-retro-yellow/10 font-sans">
-            <strong className="font-bold">HINT:</strong> Look at the timing overlap. If the report runs before the source data is done refreshing, what will it show? How much buffer should you add?
+          <div className="p-4 border-l-4 border-retro-yellow text-retro-yellow bg-retro-yellow/5 font-sans shadow-[inset_0_0_20px_rgba(250,204,21,0.05)]">
+            <strong className="font-bold tracking-wider">SYSTEM HINT:</strong> Look at the timing overlap. If the report runs before the source data is done refreshing, what will it show? How much buffer should you add?
           </div>
         )}
 
-        <div className="space-y-4">
-          <p className="text-xl leading-relaxed">
+        <div className="space-y-6">
+          <p className="text-lg text-white/90 font-sans leading-relaxed">
             A daily report starts at 06:00 (takes 45 min). The source data refresh completes at ~06:30. The report always shows stale numbers.
           </p>
-          <p className="text-retro-cyan font-bold font-sans">Identify the bug and propose a fix (time):</p>
-          <textarea
-            className="w-full bg-retro-bg border-2 border-retro-cyan/50 text-white p-4 outline-none focus:border-retro-cyan font-sans min-h-32"
-            value={clue1Answer}
-            onChange={(e) => setClue1Answer(e.target.value)}
-            placeholder="e.g. The report runs before... A better time is..."
-          />
-          {clue1Error && <p className="text-retro-pink animate-pulse font-sans font-bold">Incorrect analysis in Clue 1.</p>}
+          <div className="bg-black/40 p-4 border border-white/5 rounded space-y-3">
+            <p className="text-retro-cyan font-mono text-sm tracking-widest uppercase">Identify the bug and propose a fix (time):</p>
+            <textarea
+              className="w-full bg-black/60 border border-white/20 text-white p-4 outline-none focus:border-retro-cyan focus:shadow-[0_0_10px_rgba(61,224,210,0.2)] font-sans min-h-[8rem] rounded-sm transition-all resize-y"
+              value={clue1Answer}
+              onChange={(e) => setClue1Answer(e.target.value)}
+              placeholder="e.g. The report runs before... A better time is..."
+            />
+          </div>
+          {clue1Error && <p className="text-retro-pink animate-pulse font-mono font-bold text-sm bg-retro-pink/10 p-3 border border-retro-pink/30">ERROR: Incorrect analysis in Clue 1.</p>}
         </div>
       </div>
 
-      <div className="h-px bg-white/20 w-full" />
-
       {/* CLUE 2 */}
-      <div className="space-y-6">
-        <div className="flex items-center justify-between">
-          <h3 className="text-xl font-heading text-retro-pink">CLUE 2 OF 2</h3>
+      <div className="bg-glass p-6 md:p-8 space-y-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <h3 className="text-xl font-heading text-retro-pink flex items-center gap-2">
+            <span className="w-2 h-2 bg-retro-pink animate-pulse" />
+            CLUE 2 OF 2
+          </h3>
           <Button 
             variant="ghost" 
-            className="!px-3 !py-1 !text-sm w-auto font-sans font-semibold tracking-normal" 
+            className="!px-4 !py-2 !text-xs w-auto font-sans font-semibold tracking-widest" 
             onClick={() => useHint('st3-c2')}
             disabled={hintsUsed['st3-c2']}
           >
-            {hintsUsed['st3-c2'] ? 'Hint Used' : 'Use Hint (+1 min)'}
+            {hintsUsed['st3-c2'] ? 'Hint Active' : 'Request Hint (+1 min)'}
           </Button>
         </div>
 
         {hintsUsed['st3-c2'] && (
-          <div className="p-4 border border-retro-yellow text-retro-yellow bg-retro-yellow/10 font-sans">
-            <strong className="font-bold">HINT:</strong> Automation doesn't mean set-and-forget. Validation prevents bad data from spreading. Humans still need to review outputs.
+          <div className="p-4 border-l-4 border-retro-yellow text-retro-yellow bg-retro-yellow/5 font-sans shadow-[inset_0_0_20px_rgba(250,204,21,0.05)]">
+            <strong className="font-bold tracking-wider">SYSTEM HINT:</strong> Automation doesn't mean set-and-forget. Validation prevents bad data from spreading. Humans still need to review outputs.
           </div>
         )}
 
@@ -126,12 +132,12 @@ export function Station3Screen({
             "Data validation should happen before transformation to prevent errors from multiplying downstream.",
             "Automation eliminates the need for human review of outputs."
           ].map((question, i) => (
-            <div key={i} className="flex flex-col gap-2 bg-white/5 p-4 border border-white/10">
-              <p className="text-sm font-semibold">{question}</p>
-              <div className="flex gap-2 mt-2">
+            <div key={i} className="flex flex-col gap-4 bg-black/40 p-5 border border-white/5 rounded">
+              <p className="text-base text-white/90 leading-relaxed font-semibold">{question}</p>
+              <div className="flex gap-3 mt-2">
                 <Button 
                   variant={clue2Answers[i] === 1 ? 'primary' : 'ghost'} 
-                  className="!px-4 !py-2 !text-sm w-full"
+                  className={`!px-6 !py-3 !text-sm w-full ${clue2Answers[i] === 1 ? '!bg-retro-cyan !border-retro-cyan hover:!shadow-[0_0_15px_rgba(61,224,210,0.6)] !text-black' : ''}`}
                   onClick={() => {
                     const newAnswers = [...clue2Answers]
                     newAnswers[i] = 1
@@ -140,7 +146,7 @@ export function Station3Screen({
                 >TRUE</Button>
                 <Button 
                   variant={clue2Answers[i] === 2 ? 'primary' : 'ghost'} 
-                  className="!px-4 !py-2 !text-sm w-full"
+                  className={`!px-6 !py-3 !text-sm w-full ${clue2Answers[i] === 2 ? '!bg-retro-cyan !border-retro-cyan hover:!shadow-[0_0_15px_rgba(61,224,210,0.6)] !text-black' : ''}`}
                   onClick={() => {
                     const newAnswers = [...clue2Answers]
                     newAnswers[i] = 2
@@ -150,12 +156,12 @@ export function Station3Screen({
               </div>
             </div>
           ))}
-          {clue2Error && <p className="text-retro-pink animate-pulse font-sans font-bold">Incorrect answers in Clue 2.</p>}
+          {clue2Error && <p className="text-retro-pink animate-pulse font-mono font-bold text-sm bg-retro-pink/10 p-3 border border-retro-pink/30">ERROR: Incorrect answers in Clue 2.</p>}
         </div>
       </div>
 
-      <div className="pt-6 pb-12">
-        <Button onClick={checkAnswers}>Check Answers</Button>
+      <div className="pt-8 pb-16">
+        <Button onClick={checkAnswers} className="shadow-[0_0_20px_rgba(232,38,181,0.4)]">Check Answers</Button>
       </div>
     </div>
   )

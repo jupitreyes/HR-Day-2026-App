@@ -7,19 +7,12 @@ export function formatTime(seconds: number) {
 }
 
 export function Timer({ seconds, className, label }: { seconds: number; className?: string; label?: string }) {
-  const isCritical = seconds <= 60 && seconds > 0
-  const isZero = seconds === 0
   return (
     <div className={cn(
-      "inline-flex flex-col items-center justify-center border-4 bg-retro-bg p-3 font-body text-4xl font-bold tracking-widest",
-      {
-        "border-white text-white": !isCritical && !isZero,
-        "border-retro-yellow text-retro-yellow animate-pulse": isCritical,
-        "border-retro-pink text-retro-pink": isZero,
-      },
+      "inline-flex flex-col items-center justify-center border-l-4 border-r-4 border-retro-cyan bg-glass p-3 font-mono text-4xl font-bold tracking-widest text-retro-cyan shadow-[0_0_10px_rgba(61,224,210,0.2)]",
       className
     )}>
-      {label && <span className="text-sm uppercase tracking-widest mb-1 text-gray-400 font-sans">{label}</span>}
+      {label && <span className="text-xs uppercase tracking-widest mb-1 text-retro-cyan/70 font-sans">{label}</span>}
       {formatTime(seconds)}
     </div>
   )

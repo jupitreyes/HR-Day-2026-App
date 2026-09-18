@@ -13,14 +13,29 @@ const CORRECT_MAPPING: Record<string, string> = {
   'India': 'APAC Corporate Center',
   'Japan': 'NEA',
   'Australia': 'Large Locations',
-  'Singapore': 'SEA'
+  'Singapore': 'Large Locations'
 }
 
 // Data for Clue 2
-const WINDOWS = [
-  'PH 3:00–4:00PM / IN 12:30–1:30PM / UK 8:00–9:00AM / JP 4:00–5:00PM',
-  'PH 4:00–5:00PM / IN 1:30–2:30PM / UK 9:00–10:00AM / JP 5:00–6:00PM'
+const TZ_COUNTRIES = [
+  { id: 'PH', label: 'PH (GMT+8)' },
+  { id: 'IN', label: 'IN (GMT+5:30)' },
+  { id: 'UK', label: 'UK (GMT+1)' },
+  { id: 'JP', label: 'JP (GMT+9)' }
 ]
+
+const HOURS_OPTIONS = [
+  '7:00-8:00AM', '8:00-9:00AM', '9:00-10:00AM', '10:00-11:00AM',
+  '11:30-12:30PM', '12:30-1:30PM', '1:30-2:30PM', '2:30-3:30PM',
+  '2:00-3:00PM', '3:00-4:00PM', '4:00-5:00PM', '5:00-6:00PM', '6:00-7:00PM'
+]
+
+const CORRECT_HOURS: Record<string, string> = {
+  'PH': '3:00-4:00PM',
+  'IN': '12:30-1:30PM',
+  'UK': '8:00-9:00AM',
+  'JP': '4:00-5:00PM'
+}
 
 export function Station1Screen({
   onNext,
@@ -32,7 +47,7 @@ export function Station1Screen({
   hintsUsed: Record<string, boolean>
 }) {
   const [clue1Answers, setClue1Answers] = useState<Record<string, string>>({})
-  const [clue2Answer, setClue2Answer] = useState<string>('')
+  const [clue2Answers, setClue2Answers] = useState<Record<string, string>>({})
   
   const [clue1Error, setClue1Error] = useState(false)
   const [clue2Error, setClue2Error] = useState(false)
@@ -55,7 +70,11 @@ export function Station1Screen({
     }
 
     // Check clue 2
-    if (!WINDOWS.includes(clue2Answer)) {
+    let c2Valid = true
+    for (const tz of TZ_COUNTRIES) {
+      if (clue2Answers[tz.id] !== CORRECT_HOURS[tz.id]) c2Valid = false
+    }
+    if (!c2Valid) {
       setClue2Error(true)
       isValid = false
     } else {
@@ -70,12 +89,12 @@ export function Station1Screen({
   if (unlocked) {
     return (
       <div className="flex flex-col flex-1 items-center justify-center space-y-12 animate-in fade-in zoom-in">
-        <h2 className="text-4xl text-retro-cyan drop-shadow-[0_0_10px_rgba(61,224,210,0.8)]">SUCCESS</h2>
-        <div className="space-y-4 text-center">
-          <p className="text-gray-400 uppercase tracking-widest text-sm font-sans">Station Code Revealed</p>
+        <h2 className="text-4xl text-retro-cyan drop-shadow-[0_0_15px_rgba(61,224,210,0.8)] font-heading">ACCESS GRANTED</h2>
+        <div className="space-y-4 text-center w-full max-w-sm">
+          <p className="text-retro-cyan/70 uppercase tracking-widest text-sm font-sans">Station Code Revealed</p>
           <CodeBox code="JPECTOR" />
         </div>
-        <Button onClick={onNext}>Continue to Station 2</Button>
+        <Button onClick={onNext} className="mt-8">Continue to Station 2</Button>
       </div>
     )
   }
@@ -83,33 +102,36 @@ export function Station1Screen({
   return (
     <div className="space-y-12 py-6">
       {/* CLUE 1 */}
-      <div className="space-y-6">
-        <div className="flex items-center justify-between">
-          <h3 className="text-xl font-heading text-retro-pink">CLUE 1 OF 2</h3>
+      <div className="bg-glass p-6 md:p-8 space-y-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <h3 className="text-xl font-heading text-retro-pink flex items-center gap-2">
+            <span className="w-2 h-2 bg-retro-pink animate-pulse" />
+            CLUE 1 OF 2
+          </h3>
           <Button 
             variant="ghost" 
-            className="!px-3 !py-1 !text-sm w-auto font-sans font-semibold tracking-normal" 
+            className="!px-4 !py-2 !text-xs w-auto font-sans font-semibold tracking-widest" 
             onClick={() => useHint('st1-c1')}
             disabled={hintsUsed['st1-c1']}
           >
-            {hintsUsed['st1-c1'] ? 'Hint Used' : 'Use Hint (+1 min)'}
+            {hintsUsed['st1-c1'] ? 'Hint Active' : 'Request Hint (+1 min)'}
           </Button>
         </div>
         
         {hintsUsed['st1-c1'] && (
-          <div className="p-4 border border-retro-yellow text-retro-yellow bg-retro-yellow/10 font-sans">
-            <strong className="font-bold">HINT:</strong> Naming convention is based on the geography or headcount / nature of the work done in the location.
+          <div className="p-4 border-l-4 border-retro-yellow text-retro-yellow bg-retro-yellow/5 font-sans shadow-[inset_0_0_20px_rgba(250,204,21,0.05)]">
+            <strong className="font-bold tracking-wider">SYSTEM HINT:</strong> Naming convention is based on the geography or headcount / nature of the work done in the location.
           </div>
         )}
 
-        <div className="space-y-4">
-          <p className="text-xl">Match each country to its region/sub-category.</p>
+        <div className="space-y-6">
+          <p className="text-lg text-white/90 font-sans leading-relaxed">Match each country to its region/sub-category.</p>
           <div className="grid grid-cols-1 gap-3">
             {COUNTRIES.map(country => (
-              <div key={country} className="flex flex-col sm:flex-row sm:items-center justify-between bg-white/5 p-3 border border-white/10 gap-2">
-                <span className="font-bold text-xl">{country}</span>
+              <div key={country} className="flex flex-col sm:flex-row sm:items-center justify-between bg-black/40 p-4 border border-white/5 gap-3 rounded hover:border-retro-cyan/30 transition-colors">
+                <span className="font-semibold text-lg font-sans tracking-wide">{country}</span>
                 <select 
-                  className="bg-retro-bg border-2 border-retro-cyan/50 text-white p-2 outline-none focus:border-retro-cyan w-full sm:w-auto font-sans"
+                  className="bg-black/60 border border-white/20 text-white p-3 outline-none focus:border-retro-cyan w-full sm:w-auto font-sans rounded-sm transition-colors"
                   value={clue1Answers[country] || ''}
                   onChange={(e) => setClue1Answers(prev => ({...prev, [country]: e.target.value}))}
                 >
@@ -119,62 +141,61 @@ export function Station1Screen({
               </div>
             ))}
           </div>
-          {clue1Error && <p className="text-retro-pink animate-pulse font-sans font-bold">Incorrect mapping in Clue 1.</p>}
+          {clue1Error && <p className="text-retro-pink animate-pulse font-mono font-bold text-sm bg-retro-pink/10 p-3 border border-retro-pink/30">ERROR: Incorrect mapping in Clue 1.</p>}
         </div>
       </div>
 
-      <div className="h-px bg-white/20 w-full" />
-
       {/* CLUE 2 */}
-      <div className="space-y-6">
-        <div className="flex items-center justify-between">
-          <h3 className="text-xl font-heading text-retro-pink">CLUE 2 OF 2</h3>
+      <div className="bg-glass p-6 md:p-8 space-y-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <h3 className="text-xl font-heading text-retro-pink flex items-center gap-2">
+            <span className="w-2 h-2 bg-retro-pink animate-pulse" />
+            CLUE 2 OF 2
+          </h3>
           <Button 
             variant="ghost" 
-            className="!px-3 !py-1 !text-sm w-auto font-sans font-semibold tracking-normal" 
+            className="!px-4 !py-2 !text-xs w-auto font-sans font-semibold tracking-widest" 
             onClick={() => useHint('st1-c2')}
             disabled={hintsUsed['st1-c2']}
           >
-            {hintsUsed['st1-c2'] ? 'Hint Used' : 'Use Hint (+1 min)'}
+            {hintsUsed['st1-c2'] ? 'Hint Active' : 'Request Hint (+1 min)'}
           </Button>
         </div>
 
         {hintsUsed['st1-c2'] && (
-          <div className="p-4 border border-retro-yellow text-retro-yellow bg-retro-yellow/10 font-sans">
-            <strong className="font-bold">HINT:</strong> Start from the region with the latest timezone — what's the earliest they can meet? Now check if that works for everyone else.
+          <div className="p-4 border-l-4 border-retro-yellow text-retro-yellow bg-retro-yellow/5 font-sans shadow-[inset_0_0_20px_rgba(250,204,21,0.05)]">
+            <strong className="font-bold tracking-wider">SYSTEM HINT:</strong> Start from the region with the latest timezone — what's the earliest they can meet? Now check if that works for everyone else.
           </div>
         )}
 
-        <div className="space-y-4">
-          <p className="text-xl leading-relaxed">
+        <div className="space-y-6">
+          <div className="text-lg leading-relaxed text-white/90 font-sans">
             Find a 1-hour window where everyone is within business hours (8AM–6PM local).<br/>
-            <span className="text-gray-400 font-sans text-sm block mt-1 font-semibold">PH (GMT+8), IN (GMT+5:30), UK (GMT+1), JP (GMT+9)</span>
-          </p>
-          <select 
-            className="w-full bg-retro-bg border-2 border-retro-cyan/50 text-white p-4 outline-none focus:border-retro-cyan font-sans"
-            value={clue2Answer}
-            onChange={(e) => setClue2Answer(e.target.value)}
-          >
-            <option value="" disabled>Select the correct window...</option>
-            <option value="PH 2:00–3:00PM / IN 11:30–12:30PM / UK 7:00–8:00AM / JP 3:00–4:00PM">
-              PH 2:00–3:00PM / IN 11:30–12:30PM / UK 7:00–8:00AM / JP 3:00–4:00PM
-            </option>
-            <option value={WINDOWS[0]}>
-              {WINDOWS[0]}
-            </option>
-            <option value={WINDOWS[1]}>
-              {WINDOWS[1]}
-            </option>
-            <option value="PH 5:00–6:00PM / IN 2:30–3:30PM / UK 10:00–11:00AM / JP 6:00–7:00PM">
-              PH 5:00–6:00PM / IN 2:30–3:30PM / UK 10:00–11:00AM / JP 6:00–7:00PM
-            </option>
-          </select>
-          {clue2Error && <p className="text-retro-pink animate-pulse font-sans font-bold">Incorrect window selected in Clue 2.</p>}
+            Select the correct hour for each location:
+          </div>
+          
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {TZ_COUNTRIES.map(tz => (
+              <div key={tz.id} className="flex flex-col gap-2 bg-black/40 p-4 border border-white/5 rounded">
+                <span className="font-mono text-retro-cyan/80 text-sm tracking-widest">{tz.label}</span>
+                <select 
+                  className="bg-black/60 border border-white/20 text-white p-3 outline-none focus:border-retro-cyan w-full font-sans rounded-sm transition-colors"
+                  value={clue2Answers[tz.id] || ''}
+                  onChange={(e) => setClue2Answers(prev => ({...prev, [tz.id]: e.target.value}))}
+                >
+                  <option value="" disabled>Select hours...</option>
+                  {HOURS_OPTIONS.map(h => <option key={h} value={h}>{h}</option>)}
+                </select>
+              </div>
+            ))}
+          </div>
+
+          {clue2Error && <p className="text-retro-pink animate-pulse font-mono font-bold text-sm bg-retro-pink/10 p-3 border border-retro-pink/30">ERROR: Time windows do not align correctly.</p>}
         </div>
       </div>
 
-      <div className="pt-6 pb-12">
-        <Button onClick={checkAnswers}>Check Answers</Button>
+      <div className="pt-8 pb-16">
+        <Button onClick={checkAnswers} className="shadow-[0_0_20px_rgba(232,38,181,0.4)]">Check Answers</Button>
       </div>
     </div>
   )

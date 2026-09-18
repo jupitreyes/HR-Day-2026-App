@@ -50,30 +50,30 @@ export default function GameRunner() {
   const stationKey = gameState.screen as keyof typeof STATION_NAMES
   
   return (
-    <div className="flex flex-col min-h-dvh bg-retro-bg">
+    <div className="flex flex-col min-h-dvh bg-retro-bg font-sans bg-halftone">
       {isStation && (
-        <header className="sticky top-0 z-10 flex flex-col gap-3 p-4 bg-retro-bg/95 backdrop-blur border-b-2 border-retro-cyan/30">
+        <header className="sticky top-0 z-10 flex flex-col gap-4 p-4 bg-black/60 backdrop-blur-md border-b border-retro-cyan/30 shadow-[0_4px_20px_rgba(0,0,0,0.5)]">
           <div className="flex items-center justify-between">
-            <h2 className="text-xl text-retro-pink drop-shadow-[0_0_5px_rgba(232,38,181,0.5)]">
+            <h2 className="text-xl text-retro-cyan uppercase tracking-widest">
               {STATION_NAMES[stationKey]}
             </h2>
-            <div className="flex space-x-2">
-              <div className={`w-3 h-3 border-2 border-retro-cyan ${gameState.screen === 'station1' ? 'bg-retro-cyan shadow-[0_0_8px_#3de0d2]' : ''}`} />
-              <div className={`w-3 h-3 border-2 border-retro-cyan ${gameState.screen === 'station2' ? 'bg-retro-cyan shadow-[0_0_8px_#3de0d2]' : ''}`} />
-              <div className={`w-3 h-3 border-2 border-retro-cyan ${gameState.screen === 'station3' ? 'bg-retro-cyan shadow-[0_0_8px_#3de0d2]' : ''}`} />
+            <div className="flex space-x-3">
+              <div className={`w-3 h-3 rotate-45 border border-retro-cyan/50 ${gameState.screen === 'station1' ? 'bg-retro-cyan shadow-[0_0_10px_#3de0d2]' : ''}`} />
+              <div className={`w-3 h-3 rotate-45 border border-retro-cyan/50 ${gameState.screen === 'station2' ? 'bg-retro-cyan shadow-[0_0_10px_#3de0d2]' : ''}`} />
+              <div className={`w-3 h-3 rotate-45 border border-retro-cyan/50 ${gameState.screen === 'station3' ? 'bg-retro-cyan shadow-[0_0_10px_#3de0d2]' : ''}`} />
             </div>
           </div>
           
-          <div className="flex justify-end gap-3 items-end">
+          <div className="flex justify-end gap-4 items-end">
             {gameState.screen === 'station3' && (
-              <Timer seconds={gameState.station3Timer} label="SYS" className="scale-75 origin-bottom-right border-retro-cyan text-retro-cyan !p-2" />
+              <Timer seconds={gameState.station3Elapsed} label="SYS" className="scale-75 origin-bottom-right opacity-70" />
             )}
-            <Timer seconds={gameState.masterTimer} label="MASTER" />
+            <Timer seconds={gameState.elapsedRealTime} label="TIMER" />
           </div>
         </header>
       )}
 
-      <main className="flex-1 overflow-y-auto p-4 flex flex-col max-w-lg mx-auto w-full">
+      <main className="flex-1 overflow-y-auto p-4 flex flex-col max-w-2xl mx-auto w-full space-y-8">
         {gameState.screen === "station1" && (
           <Station1Screen 
             onNext={() => gameState.setScreen('station2')} 
@@ -100,7 +100,6 @@ export default function GameRunner() {
         )}
         {gameState.screen === "results" && (
           <ResultsScreen 
-            masterTimer={gameState.masterTimer}
             elapsedRealTime={gameState.elapsedRealTime}
             hintPenalties={gameState.hintPenalties}
             onViewLeaderboard={handleLeaderboardSubmit}
