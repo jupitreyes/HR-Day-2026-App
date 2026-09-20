@@ -9,7 +9,7 @@ export function formatTime(seconds: number) {
 export function Timer({ seconds, className, label }: { seconds: number; className?: string; label?: string }) {
   return (
     <div className={cn(
-      "inline-flex flex-col items-center justify-center border-l-4 border-r-4 border-retro-cyan bg-glass p-3 font-mono text-4xl font-bold tracking-widest text-retro-cyan shadow-[0_0_10px_rgba(61,224,210,0.2)]",
+      "inline-flex flex-col items-center justify-center border-4 border-retro-cyan bg-black/80 p-3 font-mono text-4xl font-bold tracking-widest text-retro-cyan shadow-[4px_4px_0px_rgba(0,255,255,0.4)]",
       className
     )}>
       {label && <span className="text-xs uppercase tracking-widest mb-1 text-retro-cyan/70 font-sans">{label}</span>}

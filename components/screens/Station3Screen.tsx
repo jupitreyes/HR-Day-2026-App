@@ -51,13 +51,13 @@ export function Station3Screen({
 
   if (showIntro) {
     return (
-      <div className="flex flex-col flex-1 items-center justify-center space-y-8 animate-in fade-in zoom-in px-4 py-12">
-        <div className="text-7xl drop-shadow-[0_0_20px_rgba(61,224,210,0.6)]">🤖</div>
-        <p className="text-lg text-white/90 text-center font-sans leading-relaxed max-w-md bg-glass p-6 rounded-lg border border-retro-cyan/30">
+      <div className="flex flex-col flex-1 items-center justify-center space-y-8 animate-in fade-in zoom-in px-4 py-8">
+        <div className="text-[80px] drop-shadow-retro">🤖</div>
+        <p className="text-lg text-white/90 text-center font-sans leading-relaxed max-w-xl bg-retro-panel p-6 mt-4">
           An automated HR report has been sending incorrect data for three days. No one noticed until an HR partner flagged it. Find the break in the workflow before the next report runs. You have 3 minutes.
         </p>
-        <Button onClick={() => setShowIntro(false)} className="mt-4 shadow-[0_0_20px_rgba(232,38,181,0.4)] px-12">
-          BEGIN
+        <Button onClick={() => setShowIntro(false)} className="mt-4 px-12">
+          [ BEGIN ]
         </Button>
       </div>
     )
@@ -66,12 +66,12 @@ export function Station3Screen({
   if (unlocked) {
     return (
       <div className="flex flex-col flex-1 items-center justify-center space-y-12 animate-in fade-in zoom-in">
-        <h2 className="text-4xl text-retro-cyan drop-shadow-[0_0_15px_rgba(61,224,210,0.8)] font-heading">ACCESS GRANTED</h2>
+        <h2 className="text-4xl text-retro-cyan text-shadow-retro-cyan font-heading">ACCESS GRANTED</h2>
         <div className="space-y-4 text-center w-full max-w-sm">
           <p className="text-retro-cyan/70 uppercase tracking-widest text-sm font-sans">Station Code Revealed</p>
           <CodeBox code="TMEN" />
         </div>
-        <Button onClick={onNext} className="mt-8">Continue to Final Unlock</Button>
+        <Button onClick={onNext} className="mt-8">CONTINUE TO FINAL UNLOCK</Button>
       </div>
     )
   }
@@ -79,7 +79,7 @@ export function Station3Screen({
   return (
     <div className="space-y-12 py-6">
       {/* CLUE 1 */}
-      <div className="bg-glass p-6 md:p-8 space-y-6">
+      <div className="bg-retro-panel p-6 md:p-8 space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <h3 className="text-xl font-heading text-retro-pink flex items-center gap-2">
             <span className="w-2 h-2 bg-retro-pink animate-pulse" />
@@ -105,21 +105,21 @@ export function Station3Screen({
           <p className="text-lg text-white/90 font-sans leading-relaxed">
             A daily report starts at 06:00 (takes 45 min). The source data refresh completes at ~06:30. The report always shows stale numbers.
           </p>
-          <div className="bg-black/40 p-4 border border-white/5 rounded space-y-3">
+          <div className="bg-black/40 p-4 border-4 border-white/20 space-y-3">
             <p className="text-retro-cyan font-mono text-sm tracking-widest uppercase">Identify the bug and propose a fix (time):</p>
             <textarea
-              className="w-full bg-black/60 border border-white/20 text-white p-4 outline-none focus:border-retro-cyan focus:shadow-[0_0_10px_rgba(61,224,210,0.2)] font-sans min-h-[8rem] rounded-sm transition-all resize-y"
+              className="w-full bg-black/80 border-4 border-white/50 text-white p-4 outline-none focus:border-retro-cyan focus:shadow-[4px_4px_0px_rgba(0,255,255,0.4)] font-sans min-h-[8rem] transition-all resize-y"
               value={clue1Answer}
               onChange={(e) => setClue1Answer(e.target.value)}
               placeholder="e.g. The report runs before... A better time is..."
             />
           </div>
-          {clue1Error && <p className="text-retro-pink animate-pulse font-mono font-bold text-sm bg-retro-pink/10 p-3 border border-retro-pink/30">ERROR: Incorrect analysis in Clue 1.</p>}
+          {clue1Error && <p className="text-retro-pink animate-pulse font-mono font-bold text-sm bg-retro-pink/10 p-3 border-4 border-retro-pink/30">ERROR: Incorrect analysis in Clue 1.</p>}
         </div>
       </div>
 
       {/* CLUE 2 */}
-      <div className="bg-glass p-6 md:p-8 space-y-6">
+      <div className="bg-retro-panel p-6 md:p-8 space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <h3 className="text-xl font-heading text-retro-pink flex items-center gap-2">
             <span className="w-2 h-2 bg-retro-pink animate-pulse" />
@@ -147,36 +147,36 @@ export function Station3Screen({
             "Data validation should happen before transformation to prevent errors from multiplying downstream.",
             "Automation eliminates the need for human review of outputs."
           ].map((question, i) => (
-            <div key={i} className="flex flex-col gap-4 bg-black/40 p-5 border border-white/5 rounded">
+            <div key={i} className="flex flex-col gap-4 bg-black/40 p-5 border-4 border-white/20">
               <p className="text-base text-white/90 leading-relaxed font-semibold">{question}</p>
               <div className="flex gap-3 mt-2">
                 <Button 
                   variant={clue2Answers[i] === 1 ? 'primary' : 'ghost'} 
-                  className={`!px-6 !py-3 !text-sm w-full ${clue2Answers[i] === 1 ? '!bg-retro-cyan !border-retro-cyan hover:!shadow-[0_0_15px_rgba(61,224,210,0.6)] !text-black' : ''}`}
+                  className={`!px-6 !py-3 !text-sm w-full ${clue2Answers[i] === 1 ? '!bg-retro-cyan !border-retro-cyan hover:!shadow-[4px_4px_0px_rgba(0,255,255,0.4)] !text-black' : ''}`}
                   onClick={() => {
                     const newAnswers = [...clue2Answers]
                     newAnswers[i] = 1
                     setClue2Answers(newAnswers)
                   }}
-                >TRUE</Button>
+                >[ TRUE ]</Button>
                 <Button 
                   variant={clue2Answers[i] === 2 ? 'primary' : 'ghost'} 
-                  className={`!px-6 !py-3 !text-sm w-full ${clue2Answers[i] === 2 ? '!bg-retro-cyan !border-retro-cyan hover:!shadow-[0_0_15px_rgba(61,224,210,0.6)] !text-black' : ''}`}
+                  className={`!px-6 !py-3 !text-sm w-full ${clue2Answers[i] === 2 ? '!bg-retro-cyan !border-retro-cyan hover:!shadow-[4px_4px_0px_rgba(0,255,255,0.4)] !text-black' : ''}`}
                   onClick={() => {
                     const newAnswers = [...clue2Answers]
                     newAnswers[i] = 2
                     setClue2Answers(newAnswers)
                   }}
-                >FALSE</Button>
+                >[ FALSE ]</Button>
               </div>
             </div>
           ))}
-          {clue2Error && <p className="text-retro-pink animate-pulse font-mono font-bold text-sm bg-retro-pink/10 p-3 border border-retro-pink/30">ERROR: Incorrect answers in Clue 2.</p>}
+          {clue2Error && <p className="text-retro-pink animate-pulse font-mono font-bold text-sm bg-retro-pink/10 p-3 border-4 border-retro-pink/30">ERROR: Incorrect answers in Clue 2.</p>}
         </div>
       </div>
 
       <div className="pt-8 pb-16">
-        <Button onClick={checkAnswers} className="shadow-[0_0_20px_rgba(232,38,181,0.4)]">Check Answers</Button>
+        <Button onClick={checkAnswers}>[ CHECK ANSWERS ]</Button>
       </div>
     </div>
   )

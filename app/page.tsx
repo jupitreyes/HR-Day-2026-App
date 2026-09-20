@@ -42,17 +42,31 @@ export default function GameRunner() {
     gameState.setScreen('leaderboard')
   }
 
-  if (gameState.screen === "start") {
-    return <StartScreen onStart={handleStartGame} />
-  }
 
   const isStation = ["station1", "station2", "station3"].includes(gameState.screen)
   const stationKey = gameState.screen as keyof typeof STATION_NAMES
-  
+
+  const bgImage = 
+    gameState.screen === 'station1' ? '/images/station1.jpg' :
+    gameState.screen === 'station2' ? '/images/station2.jpg' :
+    gameState.screen === 'station3' ? '/images/station3.jpg' : 
+    '/images/landing.jpg';
+
   return (
-    <div className="flex flex-col min-h-dvh bg-retro-bg font-sans bg-halftone">
+    <div className="flex flex-col min-h-dvh bg-retro-bg font-sans relative">
+      <div className="fixed inset-0 pointer-events-none bg-halftone z-50 opacity-20 mix-blend-overlay"></div>
+      
+      {bgImage && (
+        <div 
+          className="fixed inset-0 z-0 bg-cover bg-center animate-in fade-in duration-1000"
+          style={{ backgroundImage: `url(${bgImage})` }}
+        >
+          <div className="absolute inset-0 bg-black/70 backdrop-blur-[2px]"></div>
+        </div>
+      )}
+
       {isStation && (
-        <header className="sticky top-0 z-10 flex flex-col gap-4 p-4 bg-black/60 backdrop-blur-md border-b border-retro-cyan/30 shadow-[0_4px_20px_rgba(0,0,0,0.5)]">
+        <header className="sticky top-0 z-20 flex flex-col gap-4 p-4 bg-black/60 backdrop-blur-md border-b border-retro-cyan/30 shadow-[0_4px_20px_rgba(0,0,0,0.5)]">
           <div className="flex items-center justify-between">
             <h2 className="text-xl text-retro-cyan uppercase tracking-widest">
               {STATION_NAMES[stationKey]}
@@ -73,7 +87,10 @@ export default function GameRunner() {
         </header>
       )}
 
-      <main className="flex-1 overflow-y-auto p-4 flex flex-col max-w-2xl mx-auto w-full space-y-8">
+      <main className="flex-1 overflow-y-auto p-4 flex flex-col max-w-2xl mx-auto w-full space-y-8 relative z-10">
+        {gameState.screen === "start" && (
+          <StartScreen onStart={handleStartGame} />
+        )}
         {gameState.screen === "station1" && (
           <Station1Screen 
             onNext={() => gameState.setScreen('station2')} 

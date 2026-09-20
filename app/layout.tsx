@@ -1,16 +1,16 @@
 import type { Metadata, Viewport } from "next";
-import { Orbitron, JetBrains_Mono } from "next/font/google";
+import { Press_Start_2P, VT323 } from "next/font/google";
 import "./globals.css";
 
-const orbitron = Orbitron({
-  variable: "--font-orbitron",
-  weight: ["400", "700", "900"],
+const pressStart2P = Press_Start_2P({
+  variable: "--font-heading",
+  weight: "400",
   subsets: ["latin"],
 });
 
-const jetbrains = JetBrains_Mono({
-  variable: "--font-jetbrains",
-  weight: ["400", "500", "700"],
+const vt323 = VT323({
+  variable: "--font-body",
+  weight: "400",
   subsets: ["latin"],
 });
 
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0B0A10",
+  themeColor: "#0F0C20",
   width: "device-width",
   initialScale: 1,
   maximumScale: 1,
@@ -36,9 +36,9 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${orbitron.variable} ${jetbrains.variable} h-full antialiased`}
+      className={`${pressStart2P.variable} ${vt323.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col" suppressHydrationWarning>{children}</body>
     </html>
   );
 }

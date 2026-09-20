@@ -107,13 +107,13 @@ export function Station2Screen({
 
   if (showIntro) {
     return (
-      <div className="flex flex-col flex-1 items-center justify-center space-y-8 animate-in fade-in zoom-in px-4 py-12">
-        <div className="text-7xl drop-shadow-[0_0_20px_rgba(61,224,210,0.6)]">🔄</div>
-        <p className="text-lg text-white/90 text-center font-sans leading-relaxed max-w-md bg-glass p-6 rounded-lg border border-retro-cyan/30">
+      <div className="flex flex-col flex-1 items-center justify-center space-y-8 animate-in fade-in zoom-in px-4 py-8">
+        <div className="text-[80px] drop-shadow-retro">🔄</div>
+        <p className="text-lg text-white/90 text-center font-sans leading-relaxed max-w-xl bg-retro-panel p-6 mt-4">
           A major HR system change goes live in 48 hours. Stakeholders have not been informed. Training hasn't been scheduled. The change is at risk of being frozen. Fix the communication plan before it's too late.
         </p>
-        <Button onClick={() => setShowIntro(false)} className="mt-4 shadow-[0_0_20px_rgba(232,38,181,0.4)] px-12">
-          BEGIN
+        <Button onClick={() => setShowIntro(false)} className="mt-4 px-12">
+          [ BEGIN ]
         </Button>
       </div>
     )
@@ -122,12 +122,12 @@ export function Station2Screen({
   if (unlocked) {
     return (
       <div className="flex flex-col flex-1 items-center justify-center space-y-12 animate-in fade-in zoom-in">
-        <h2 className="text-4xl text-retro-cyan drop-shadow-[0_0_15px_rgba(61,224,210,0.8)] font-heading">ACCESS GRANTED</h2>
+        <h2 className="text-4xl text-retro-cyan text-shadow-retro-cyan font-heading">ACCESS GRANTED</h2>
         <div className="space-y-4 text-center w-full max-w-sm">
           <p className="text-retro-cyan/70 uppercase tracking-widest text-sm font-sans">Station Code Revealed</p>
           <CodeBox code="AEGANM" />
         </div>
-        <Button onClick={onNext} className="mt-8">Continue to Station 3</Button>
+        <Button onClick={onNext} className="mt-8">CONTINUE TO STATION 3</Button>
       </div>
     )
   }
@@ -135,7 +135,7 @@ export function Station2Screen({
   return (
     <div className="space-y-12 py-6">
       {/* CLUE 1 */}
-      <div className="bg-glass p-6 md:p-8 space-y-6">
+      <div className="bg-retro-panel p-6 md:p-8 space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <h3 className="text-xl font-heading text-retro-pink flex items-center gap-2">
             <span className="w-2 h-2 bg-retro-pink animate-pulse" />
@@ -161,10 +161,10 @@ export function Station2Screen({
           <p className="text-lg text-white/90 font-sans leading-relaxed">Determine the correct escalation path order.</p>
           <div className="grid grid-cols-1 gap-4 font-sans">
             {[0, 1, 2].map((step) => (
-              <div key={step} className="flex flex-col gap-2 bg-black/40 p-4 border border-white/5 rounded">
+              <div key={step} className="flex flex-col gap-2 bg-black/40 p-4 border-4 border-white/20 hover:border-retro-cyan transition-colors">
                 <span className="font-mono text-retro-cyan/80 text-sm tracking-widest">STEP {step + 1}</span>
                 <select 
-                  className="bg-black/60 border border-white/20 text-white p-3 outline-none focus:border-retro-cyan w-full rounded-sm transition-colors"
+                  className="bg-black/80 border-4 border-white/50 text-white p-3 outline-none focus:border-retro-cyan focus:shadow-[4px_4px_0px_rgba(0,255,255,0.4)] w-full transition-all appearance-none"
                   value={clue1Answers[step]}
                   onChange={(e) => {
                     const newAnswers = [...clue1Answers]
@@ -178,12 +178,12 @@ export function Station2Screen({
               </div>
             ))}
           </div>
-          {clue1Error && <p className="text-retro-pink animate-pulse font-mono font-bold text-sm bg-retro-pink/10 p-3 border border-retro-pink/30">ERROR: Incorrect escalation path in Clue 1.</p>}
+          {clue1Error && <p className="text-retro-pink animate-pulse font-mono font-bold text-sm bg-retro-pink/10 p-3 border-4 border-retro-pink/30">ERROR: Incorrect escalation path in Clue 1.</p>}
         </div>
       </div>
 
       {/* CLUE 2 */}
-      <div className="bg-glass p-6 md:p-8 space-y-6">
+      <div className="bg-retro-panel p-6 md:p-8 space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <h3 className="text-xl font-heading text-retro-pink flex items-center gap-2">
             <span className="w-2 h-2 bg-retro-pink animate-pulse" />
@@ -209,22 +209,22 @@ export function Station2Screen({
           <p className="text-lg text-white/90 font-sans leading-relaxed">
             Reorder the change readiness checklist.
           </p>
-          <div className="flex flex-col gap-2 font-sans">
+          <div className="flex flex-col gap-3 font-sans">
             {clue2Order.map((item, index) => (
-              <div key={item} className="flex items-center justify-between bg-black/40 p-4 border border-white/5 gap-3 rounded group hover:border-white/20 transition-colors">
+              <div key={item} className="flex items-center justify-between bg-black/40 p-4 border-4 border-white/20 gap-3 group hover:border-white/50 transition-colors">
                 <span className="font-semibold text-sm leading-tight flex-1 tracking-wide">{index + 1}. {item}</span>
-                <div className="flex flex-col sm:flex-row gap-1 opacity-100 sm:opacity-50 sm:group-hover:opacity-100 transition-opacity">
+                <div className="flex flex-col sm:flex-row gap-2 opacity-100 sm:opacity-50 sm:group-hover:opacity-100 transition-opacity">
                   <button 
                     onClick={() => moveUp(index)} 
                     disabled={index === 0}
-                    className="p-2 bg-black/60 border border-white/20 text-white hover:text-retro-cyan hover:border-retro-cyan disabled:opacity-30 disabled:hover:text-white disabled:hover:border-white/20 rounded-sm transition-all"
+                    className="p-2 bg-black/80 border-4 border-white/50 text-white hover:text-retro-cyan hover:border-retro-cyan hover:shadow-[4px_4px_0px_rgba(0,255,255,0.4)] disabled:opacity-30 disabled:hover:text-white disabled:hover:border-white/50 disabled:hover:shadow-none transition-all active:translate-y-1 active:shadow-none"
                   >
                     <ArrowUp size={16} />
                   </button>
                   <button 
                     onClick={() => moveDown(index)} 
                     disabled={index === clue2Order.length - 1}
-                    className="p-2 bg-black/60 border border-white/20 text-white hover:text-retro-cyan hover:border-retro-cyan disabled:opacity-30 disabled:hover:text-white disabled:hover:border-white/20 rounded-sm transition-all"
+                    className="p-2 bg-black/80 border-4 border-white/50 text-white hover:text-retro-cyan hover:border-retro-cyan hover:shadow-[4px_4px_0px_rgba(0,255,255,0.4)] disabled:opacity-30 disabled:hover:text-white disabled:hover:border-white/50 disabled:hover:shadow-none transition-all active:translate-y-1 active:shadow-none"
                   >
                     <ArrowDown size={16} />
                   </button>
@@ -232,12 +232,12 @@ export function Station2Screen({
               </div>
             ))}
           </div>
-          {clue2Error && <p className="text-retro-pink animate-pulse font-mono font-bold text-sm bg-retro-pink/10 p-3 border border-retro-pink/30">ERROR: Incorrect checklist order in Clue 2.</p>}
+          {clue2Error && <p className="text-retro-pink animate-pulse font-mono font-bold text-sm bg-retro-pink/10 p-3 border-4 border-retro-pink/30">ERROR: Incorrect checklist order in Clue 2.</p>}
         </div>
       </div>
 
       <div className="pt-8 pb-16">
-        <Button onClick={checkAnswers} className="shadow-[0_0_20px_rgba(232,38,181,0.4)]">Check Answers</Button>
+        <Button onClick={checkAnswers}>[ CHECK ANSWERS ]</Button>
       </div>
     </div>
   )

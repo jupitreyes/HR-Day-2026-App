@@ -11,10 +11,10 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       <button
         ref={ref}
         className={cn(
-          "inline-flex w-full items-center justify-center px-6 py-4 text-xl font-bold uppercase tracking-widest transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-retro-cyan focus:ring-offset-2 focus:ring-offset-[#0B0A10] disabled:opacity-50 disabled:cursor-not-allowed font-heading",
+          "inline-flex w-full items-center justify-center px-6 py-4 text-xl font-bold uppercase tracking-widest transition-all duration-75 focus:outline-none focus:ring-4 focus:ring-retro-cyan focus:ring-offset-0 disabled:opacity-50 disabled:cursor-not-allowed font-heading active:translate-y-[4px] active:shadow-none",
           {
-            "bg-retro-pink text-white hover:bg-retro-pink/90 hover:shadow-[0_0_15px_rgba(232,38,181,0.6)] hover:scale-[1.02] border border-retro-pink/50": variant === "primary",
-            "bg-glass border border-retro-cyan/30 text-retro-cyan hover:bg-retro-cyan/10 hover:shadow-[0_0_10px_rgba(61,224,210,0.3)]": variant === "ghost",
+            "bg-retro-pink text-white border-4 border-white shadow-[6px_6px_0px_rgba(0,255,255,0.6)] hover:brightness-110": variant === "primary",
+            "bg-black border-4 border-retro-cyan text-retro-cyan shadow-[6px_6px_0px_rgba(255,0,255,0.6)] hover:bg-retro-cyan/10": variant === "ghost",
           },
           className
         )}

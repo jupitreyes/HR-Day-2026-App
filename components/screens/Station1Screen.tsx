@@ -89,13 +89,13 @@ export function Station1Screen({
 
   if (showIntro) {
     return (
-      <div className="flex flex-col flex-1 items-center justify-center space-y-8 animate-in fade-in zoom-in px-4 py-12">
-        <div className="text-7xl drop-shadow-[0_0_20px_rgba(61,224,210,0.6)]">🌍</div>
-        <p className="text-lg text-white/90 text-center font-sans leading-relaxed max-w-md bg-glass p-6 rounded-lg border border-retro-cyan/30">
+      <div className="flex flex-col flex-1 items-center justify-center space-y-8 animate-in fade-in zoom-in px-4 py-8">
+        <div className="text-[80px] drop-shadow-retro">🌍</div>
+        <p className="text-lg text-white/90 text-center font-sans leading-relaxed max-w-xl bg-retro-panel p-6 mt-4">
           A critical HR project is stalled. A cross-regional dependency has been missed and no one knows who owns it. Two clues stand between the project and progress. It's your role to unblock it.
         </p>
-        <Button onClick={() => setShowIntro(false)} className="mt-4 shadow-[0_0_20px_rgba(232,38,181,0.4)] px-12">
-          BEGIN
+        <Button onClick={() => setShowIntro(false)} className="mt-4 px-12">
+          [ BEGIN ]
         </Button>
       </div>
     )
@@ -104,12 +104,12 @@ export function Station1Screen({
   if (unlocked) {
     return (
       <div className="flex flex-col flex-1 items-center justify-center space-y-12 animate-in fade-in zoom-in">
-        <h2 className="text-4xl text-retro-cyan drop-shadow-[0_0_15px_rgba(61,224,210,0.8)] font-heading">ACCESS GRANTED</h2>
+        <h2 className="text-4xl text-retro-cyan text-shadow-retro-cyan font-heading">ACCESS GRANTED</h2>
         <div className="space-y-4 text-center w-full max-w-sm">
           <p className="text-retro-cyan/70 uppercase tracking-widest text-sm font-sans">Station Code Revealed</p>
           <CodeBox code="JPECTOR" />
         </div>
-        <Button onClick={onNext} className="mt-8">Continue to Station 2</Button>
+        <Button onClick={onNext} className="mt-8">CONTINUE TO STATION 2</Button>
       </div>
     )
   }
@@ -117,7 +117,7 @@ export function Station1Screen({
   return (
     <div className="space-y-12 py-6">
       {/* CLUE 1 */}
-      <div className="bg-glass p-6 md:p-8 space-y-6">
+      <div className="bg-retro-panel p-6 md:p-8 space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <h3 className="text-xl font-heading text-retro-pink flex items-center gap-2">
             <span className="w-2 h-2 bg-retro-pink animate-pulse" />
@@ -141,12 +141,12 @@ export function Station1Screen({
 
         <div className="space-y-6">
           <p className="text-lg text-white/90 font-sans leading-relaxed">Match each country to its region/sub-category.</p>
-          <div className="grid grid-cols-1 gap-3">
+          <div className="grid grid-cols-1 gap-4">
             {COUNTRIES.map(country => (
-              <div key={country} className="flex flex-col sm:flex-row sm:items-center justify-between bg-black/40 p-4 border border-white/5 gap-3 rounded hover:border-retro-cyan/30 transition-colors">
+              <div key={country} className="flex flex-col sm:flex-row sm:items-center justify-between bg-black/40 p-4 border-4 border-white/20 gap-3 hover:border-retro-cyan transition-colors">
                 <span className="font-semibold text-lg font-sans tracking-wide">{country}</span>
                 <select 
-                  className="bg-black/60 border border-white/20 text-white p-3 outline-none focus:border-retro-cyan w-full sm:w-auto font-sans rounded-sm transition-colors"
+                  className="bg-black/80 border-4 border-white/50 text-white p-3 outline-none focus:border-retro-cyan focus:shadow-[4px_4px_0px_rgba(0,255,255,0.4)] w-full sm:w-auto font-sans transition-all appearance-none"
                   value={clue1Answers[country] || ''}
                   onChange={(e) => setClue1Answers(prev => ({...prev, [country]: e.target.value}))}
                 >
@@ -156,12 +156,12 @@ export function Station1Screen({
               </div>
             ))}
           </div>
-          {clue1Error && <p className="text-retro-pink animate-pulse font-mono font-bold text-sm bg-retro-pink/10 p-3 border border-retro-pink/30">ERROR: Incorrect mapping in Clue 1.</p>}
+          {clue1Error && <p className="text-retro-pink animate-pulse font-mono font-bold text-sm bg-retro-pink/10 p-3 border-4 border-retro-pink/30">ERROR: Incorrect mapping in Clue 1.</p>}
         </div>
       </div>
 
       {/* CLUE 2 */}
-      <div className="bg-glass p-6 md:p-8 space-y-6">
+      <div className="bg-retro-panel p-6 md:p-8 space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <h3 className="text-xl font-heading text-retro-pink flex items-center gap-2">
             <span className="w-2 h-2 bg-retro-pink animate-pulse" />
@@ -191,10 +191,10 @@ export function Station1Screen({
           
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {TZ_COUNTRIES.map(tz => (
-              <div key={tz.id} className="flex flex-col gap-2 bg-black/40 p-4 border border-white/5 rounded">
+              <div key={tz.id} className="flex flex-col gap-2 bg-black/40 p-4 border-4 border-white/20 hover:border-retro-cyan transition-colors">
                 <span className="font-mono text-retro-cyan/80 text-sm tracking-widest">{tz.label}</span>
                 <select 
-                  className="bg-black/60 border border-white/20 text-white p-3 outline-none focus:border-retro-cyan w-full font-sans rounded-sm transition-colors"
+                  className="bg-black/80 border-4 border-white/50 text-white p-3 outline-none focus:border-retro-cyan focus:shadow-[4px_4px_0px_rgba(0,255,255,0.4)] w-full font-sans transition-all appearance-none"
                   value={clue2Answers[tz.id] || ''}
                   onChange={(e) => setClue2Answers(prev => ({...prev, [tz.id]: e.target.value}))}
                 >
@@ -205,12 +205,12 @@ export function Station1Screen({
             ))}
           </div>
 
-          {clue2Error && <p className="text-retro-pink animate-pulse font-mono font-bold text-sm bg-retro-pink/10 p-3 border border-retro-pink/30">ERROR: Time windows do not align correctly.</p>}
+          {clue2Error && <p className="text-retro-pink animate-pulse font-mono font-bold text-sm bg-retro-pink/10 p-3 border-4 border-retro-pink/30">ERROR: Time windows do not align correctly.</p>}
         </div>
       </div>
 
       <div className="pt-8 pb-16">
-        <Button onClick={checkAnswers} className="shadow-[0_0_20px_rgba(232,38,181,0.4)]">Check Answers</Button>
+        <Button onClick={checkAnswers}>[ CHECK ANSWERS ]</Button>
       </div>
     </div>
   )

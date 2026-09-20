@@ -38,11 +38,11 @@ export function LeaderboardView({ currentTeamName }: { currentTeamName?: string 
   }
 
   return (
-    <div className="space-y-3 font-sans bg-glass p-4 rounded-md">
+    <div className="space-y-3 font-sans bg-retro-panel p-4">
       {entries.map((entry, index) => {
         const isCurrent = currentTeamName && entry.team_name === currentTeamName
         return (
-          <div key={entry.id} className={`flex justify-between items-center p-3 border-b border-white/5 ${isCurrent ? 'bg-retro-cyan/10 border-retro-cyan/50 text-white shadow-[inset_0_0_10px_rgba(61,224,210,0.1)]' : 'text-gray-300'}`}>
+          <div key={entry.id} className={`flex justify-between items-center p-3 border-b-2 ${isCurrent ? 'bg-retro-cyan/20 border-retro-cyan text-white shadow-[0_0_10px_rgba(0,255,255,0.2)]' : 'border-white/10 text-gray-300'}`}>
             <div className="flex items-center gap-4 truncate">
               <span className="font-heading text-retro-cyan w-8 shrink-0 tracking-widest">{index + 1}.</span>
               <span className="font-mono truncate uppercase">{entry.team_name || 'Anonymous Team'}</span>
