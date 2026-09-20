@@ -17,6 +17,13 @@ export function StartScreen({ onStart }: { onStart: (teamName: string, venue: st
         Work together. Move fast. Time starts as soon as you connect.
       </p>
 
+      <div className="flex flex-col items-center justify-center space-y-3 animate-in zoom-in-95 duration-700 delay-200 fill-mode-both">
+        <div className="p-2 bg-black/40 border-4 border-retro-cyan shadow-[0_0_15px_rgba(0,255,255,0.2)]">
+          <img src="/images/qrcode.png" alt="Scan to Play" className="w-32 h-32 md:w-48 md:h-48 object-contain mix-blend-screen" />
+        </div>
+        <p className="text-retro-cyan font-mono text-sm tracking-widest animate-pulse">SCAN TO PLAY ON MOBILE</p>
+      </div>
+
       <div className="space-y-4 max-w-sm mx-auto w-full bg-retro-panel p-6 animate-in zoom-in-95 duration-700 delay-300 fill-mode-both">
         <input 
           className="w-full bg-black/80 border-4 border-white/50 text-white p-4 font-mono outline-none focus:border-retro-cyan focus:shadow-[4px_4px_0px_rgba(0,255,255,0.4)] transition-all placeholder:text-white/30"
