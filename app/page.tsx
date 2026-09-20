@@ -50,6 +50,8 @@ export default function GameRunner() {
     gameState.screen === 'station1' ? '/images/station1.jpg' :
     gameState.screen === 'station2' ? '/images/station2.jpg' :
     gameState.screen === 'station3' ? '/images/station3.jpg' : 
+    gameState.screen === 'final' ? '/images/final.jpg' :
+    (gameState.screen === 'results' || gameState.screen === 'leaderboard') ? '/images/results.jpg' :
     '/images/landing.jpg';
 
   return (
