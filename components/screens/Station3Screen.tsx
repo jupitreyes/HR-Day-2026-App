@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Button } from '@/components/ui/Button'
 import { CodeBox } from '@/components/ui/CodeBox'
+import { UnlockSequence } from '@/components/ui/UnlockSequence'
 
 export function Station3Screen({
   onNext,
@@ -18,6 +19,7 @@ export function Station3Screen({
   const [clue1Error, setClue1Error] = useState(false)
   const [clue2Error, setClue2Error] = useState(false)
   
+  const [isUnlocking, setIsUnlocking] = useState(false)
   const [unlocked, setUnlocked] = useState(false)
   const [showIntro, setShowIntro] = useState(true)
 
@@ -45,7 +47,7 @@ export function Station3Screen({
     }
 
     if (isValid) {
-      setUnlocked(true)
+      setIsUnlocking(true)
     }
   }
 
@@ -61,6 +63,10 @@ export function Station3Screen({
         </Button>
       </div>
     )
+  }
+
+  if (isUnlocking && !unlocked) {
+    return <UnlockSequence onComplete={() => setUnlocked(true)} />
   }
 
   if (unlocked) {

@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Button } from '@/components/ui/Button'
 import { CodeBox } from '@/components/ui/CodeBox'
+import { UnlockSequence } from '@/components/ui/UnlockSequence'
 import { ArrowUp, ArrowDown } from 'lucide-react'
 
 const CLUE1_ITEMS = [
@@ -35,6 +36,7 @@ export function Station2Screen({
   const [clue1Error, setClue1Error] = useState(false)
   const [clue2Error, setClue2Error] = useState(false)
   
+  const [isUnlocking, setIsUnlocking] = useState(false)
   const [unlocked, setUnlocked] = useState(false)
   const [showIntro, setShowIntro] = useState(true)
 
@@ -101,7 +103,7 @@ export function Station2Screen({
     }
 
     if (isValid) {
-      setUnlocked(true)
+      setIsUnlocking(true)
     }
   }
 
@@ -117,6 +119,10 @@ export function Station2Screen({
         </Button>
       </div>
     )
+  }
+
+  if (isUnlocking && !unlocked) {
+    return <UnlockSequence onComplete={() => setUnlocked(true)} />
   }
 
   if (unlocked) {

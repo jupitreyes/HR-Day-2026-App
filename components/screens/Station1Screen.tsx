@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Button } from '@/components/ui/Button'
 import { CodeBox } from '@/components/ui/CodeBox'
+import { UnlockSequence } from '@/components/ui/UnlockSequence'
 
 // Data for Clue 1
 const REGIONS = ['APAC Corporate Center', 'NEA', 'SEA', 'Large Locations']
@@ -52,6 +53,7 @@ export function Station1Screen({
   const [clue1Error, setClue1Error] = useState(false)
   const [clue2Error, setClue2Error] = useState(false)
   
+  const [isUnlocking, setIsUnlocking] = useState(false)
   const [unlocked, setUnlocked] = useState(false)
   const [showIntro, setShowIntro] = useState(true)
 
@@ -83,7 +85,7 @@ export function Station1Screen({
     }
 
     if (isValid) {
-      setUnlocked(true)
+      setIsUnlocking(true)
     }
   }
 
@@ -99,6 +101,10 @@ export function Station1Screen({
         </Button>
       </div>
     )
+  }
+
+  if (isUnlocking && !unlocked) {
+    return <UnlockSequence onComplete={() => setUnlocked(true)} />
   }
 
   if (unlocked) {

@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Button } from '@/components/ui/Button'
+import { UnlockSequence } from '@/components/ui/UnlockSequence'
 
 export function FinalUnlockScreen({ onNext }: { onNext: () => void }) {
   const [word1, setWord1] = useState('')
@@ -7,6 +8,7 @@ export function FinalUnlockScreen({ onNext }: { onNext: () => void }) {
   const [word3, setWord3] = useState('')
   const [finalAnswer, setFinalAnswer] = useState('')
   const [error, setError] = useState(false)
+  const [isUnlocking, setIsUnlocking] = useState(false)
 
   const checkAnswer = () => {
     const w1 = word1.trim().toUpperCase()
@@ -15,10 +17,15 @@ export function FinalUnlockScreen({ onNext }: { onNext: () => void }) {
     const final = finalAnswer.trim().toLowerCase().replace(/\s+/g, '')
 
     if (w1 === 'PROJECT' && w2 === 'MANAGE' && w3 === 'MENT' && final === 'projectmanagement') {
-      onNext()
+      setError(false)
+      setIsUnlocking(true)
     } else {
       setError(true)
     }
+  }
+
+  if (isUnlocking) {
+    return <UnlockSequence isFinal onComplete={onNext} />
   }
 
   return (
