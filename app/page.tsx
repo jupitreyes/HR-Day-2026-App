@@ -13,20 +13,42 @@ import { supabase } from "@/lib/supabase/client"
 import { useState } from "react"
 
 const STATION_NAMES = {
-  station1: "REGIONAL ROADBLOCK",
-  station2: "CHANGE FREEZE",
-  station3: "DATA GLITCH",
+  station1: "DATA GLITCH",
+  station2: "REGIONAL ROADBLOCK",
+  station3: "CHANGE FREEZE",
 }
 
 export default function GameRunner() {
   const gameState = useGameState()
   const [currentTeamName, setCurrentTeamName] = useState<string>('')
   const [currentVenue, setCurrentVenue] = useState<string>('Manila')
+  const [currentSid1, setCurrentSid1] = useState<string>('')
+  const [currentSid2, setCurrentSid2] = useState<string>('')
 
-  const handleStartGame = (teamName: string, venue: string) => {
-    setCurrentTeamName(teamName)
-    setCurrentVenue(venue)
-    gameState.startGame()
+  const handleStartGame = async (teamName: string, venue: string, sid1: string, sid2: string) => {
+    try {
+      let query = supabase.from('leaderboard').select('id')
+      if (sid2) {
+        query = query.or(`sid1.eq.${sid1},sid2.eq.${sid1},sid1.eq.${sid2},sid2.eq.${sid2}`)
+      } else {
+        query = query.or(`sid1.eq.${sid1},sid2.eq.${sid1}`)
+      }
+
+      const { data, error } = await query.limit(1).maybeSingle()
+      
+      if (data) {
+        return { error: 'One or both SIDs have already completed the game.' }
+      }
+
+      setCurrentTeamName(teamName)
+      setCurrentVenue(venue)
+      setCurrentSid1(sid1)
+      setCurrentSid2(sid2)
+      gameState.startGame()
+    } catch (e) {
+      console.error(e)
+      return { error: 'Failed to verify SIDs. Please try again.' }
+    }
   }
 
   const handleLeaderboardSubmit = async (finalTimeSeconds: number) => {
@@ -34,7 +56,9 @@ export default function GameRunner() {
       await supabase.from('leaderboard').insert([{
         team_name: currentTeamName,
         venue: currentVenue,
-        final_time_seconds: finalTimeSeconds
+        final_time_seconds: finalTimeSeconds,
+        sid1: currentSid1,
+        sid2: currentSid2 || null
       }])
     } catch (e) {
       console.error(e)
@@ -94,21 +118,21 @@ export default function GameRunner() {
           <StartScreen onStart={handleStartGame} />
         )}
         {gameState.screen === "station1" && (
-          <Station1Screen 
+          <Station3Screen 
             onNext={() => gameState.setScreen('station2')} 
             useHint={gameState.useHint} 
             hintsUsed={gameState.hintsUsed} 
           />
         )}
         {gameState.screen === "station2" && (
-          <Station2Screen 
+          <Station1Screen 
             onNext={() => gameState.setScreen('station3')} 
             useHint={gameState.useHint} 
             hintsUsed={gameState.hintsUsed} 
           />
         )}
         {gameState.screen === "station3" && (
-          <Station3Screen 
+          <Station2Screen 
             onNext={() => gameState.setScreen('final')} 
             useHint={gameState.useHint} 
             hintsUsed={gameState.hintsUsed} 

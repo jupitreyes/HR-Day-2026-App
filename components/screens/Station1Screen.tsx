@@ -4,17 +4,18 @@ import { CodeBox } from '@/components/ui/CodeBox'
 import { UnlockSequence } from '@/components/ui/UnlockSequence'
 
 // Data for Clue 1
-const REGIONS = ['APAC Corporate Center', 'NEA', 'SEA', 'Large Locations']
-const COUNTRIES = ['Indonesia', 'Philippines', 'China', 'India', 'Japan', 'Australia', 'Singapore']
+const REGIONS = ['APAC', 'EMEA', 'Americas Ex-US']
+const COUNTRIES = ['Turkey', 'Canada', 'Mauritius', 'Chile', 'Australia', 'Bangladesh', 'Cote d\'Ivoire', 'Japan']
 
 const CORRECT_MAPPING: Record<string, string> = {
-  'Indonesia': 'SEA',
-  'Philippines': 'APAC Corporate Center',
-  'China': 'NEA',
-  'India': 'APAC Corporate Center',
-  'Japan': 'NEA',
-  'Australia': 'Large Locations',
-  'Singapore': 'Large Locations'
+  'Mauritius': 'APAC',
+  'Australia': 'APAC',
+  'Japan': 'APAC',
+  'Bangladesh': 'APAC',
+  'Cote d\'Ivoire': 'EMEA',
+  'Turkey': 'EMEA',
+  'Chile': 'Americas Ex-US',
+  'Canada': 'Americas Ex-US'
 }
 
 // Data for Clue 2
@@ -51,7 +52,7 @@ export function Station1Screen({
   const [clue2Answers, setClue2Answers] = useState<Record<string, string>>({})
   
   const [clue1Error, setClue1Error] = useState(false)
-  const [clue2Error, setClue2Error] = useState(false)
+  const [clue2ErrorMsg, setClue2ErrorMsg] = useState('')
   
   const [isUnlocking, setIsUnlocking] = useState(false)
   const [unlocked, setUnlocked] = useState(false)
@@ -73,15 +74,19 @@ export function Station1Screen({
     }
 
     // Check clue 2
-    let c2Valid = true
+    const wrongCountries = []
     for (const tz of TZ_COUNTRIES) {
-      if (clue2Answers[tz.id] !== CORRECT_HOURS[tz.id]) c2Valid = false
+      if (clue2Answers[tz.id] !== CORRECT_HOURS[tz.id]) wrongCountries.push(tz.label.split(' ')[0])
     }
-    if (!c2Valid) {
-      setClue2Error(true)
+    
+    if (wrongCountries.length === 1) {
+      setClue2ErrorMsg(`This falls outside the regular hours for ${wrongCountries[0]}`)
+      isValid = false
+    } else if (wrongCountries.length > 1) {
+      setClue2ErrorMsg('Time zone alignment mismatch')
       isValid = false
     } else {
-      setClue2Error(false)
+      setClue2ErrorMsg('')
     }
 
     if (isValid) {
@@ -112,10 +117,10 @@ export function Station1Screen({
       <div className="flex flex-col flex-1 items-center justify-center space-y-12 animate-in fade-in zoom-in">
         <h2 className="text-4xl text-retro-cyan text-shadow-retro-cyan font-heading">ACCESS GRANTED</h2>
         <div className="space-y-4 text-center w-full max-w-sm">
-          <p className="text-retro-cyan/70 uppercase tracking-widest text-sm font-sans">Station Code Revealed</p>
-          <CodeBox code="JPECTOR" />
+          <p className="text-retro-cyan/70 uppercase tracking-widest text-sm font-sans">Key obtained, proceed to the next station</p>
+          <CodeBox code="AEGANM" />
         </div>
-        <Button onClick={onNext} className="mt-8">CONTINUE TO STATION 2</Button>
+        <Button onClick={onNext} className="mt-8">CONTINUE TO STATION 3</Button>
       </div>
     )
   }
@@ -191,7 +196,7 @@ export function Station1Screen({
 
         <div className="space-y-6">
           <div className="text-lg leading-relaxed text-white/90 font-sans">
-            Find the <strong>earliest available 1-hour window</strong> where everyone is within business hours (8AM–6PM local).<br/>
+            Find the <strong className="text-retro-cyan bg-retro-panel px-1 uppercase tracking-widest border border-retro-cyan shadow-[0_0_8px_rgba(0,255,255,0.3)]">EARLIEST</strong> available 1-hour window where everyone is within business hours (8AM–6PM local).<br/>
             Select the correct hour for each location:
           </div>
           
@@ -211,7 +216,7 @@ export function Station1Screen({
             ))}
           </div>
 
-          {clue2Error && <p className="text-retro-pink animate-pulse font-mono font-bold text-sm bg-retro-pink/10 p-3 border-4 border-retro-pink/30">ERROR: Time windows do not align correctly.</p>}
+          {clue2ErrorMsg && <p className="text-retro-pink animate-pulse font-mono font-bold text-sm bg-retro-pink/10 p-3 border-4 border-retro-pink/30">ERROR: {clue2ErrorMsg}</p>}
         </div>
       </div>
 

@@ -130,10 +130,10 @@ export function Station2Screen({
       <div className="flex flex-col flex-1 items-center justify-center space-y-12 animate-in fade-in zoom-in">
         <h2 className="text-4xl text-retro-cyan text-shadow-retro-cyan font-heading">ACCESS GRANTED</h2>
         <div className="space-y-4 text-center w-full max-w-sm">
-          <p className="text-retro-cyan/70 uppercase tracking-widest text-sm font-sans">Station Code Revealed</p>
-          <CodeBox code="AEGANM" />
+          <p className="text-retro-cyan/70 uppercase tracking-widest text-sm font-sans">Key obtained, proceed to the next station</p>
+          <CodeBox code="TMEN" />
         </div>
-        <Button onClick={onNext} className="mt-8">CONTINUE TO STATION 3</Button>
+        <Button onClick={onNext} className="mt-8">CONTINUE TO FINAL UNLOCK</Button>
       </div>
     )
   }

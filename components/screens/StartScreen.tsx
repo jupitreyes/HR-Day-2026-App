@@ -2,9 +2,27 @@ import { useState } from 'react'
 import { Button } from "@/components/ui/Button"
 import { LeaderboardView } from "@/components/ui/LeaderboardView"
 
-export function StartScreen({ onStart }: { onStart: (teamName: string, venue: string) => void }) {
+export function StartScreen({ onStart }: { onStart: (teamName: string, venue: string, sid1: string, sid2: string) => Promise<{error?: string} | void> }) {
   const [teamName, setTeamName] = useState('')
   const [venue, setVenue] = useState('Manila')
+  const [sid1, setSid1] = useState('')
+  const [sid2, setSid2] = useState('')
+  const [isStarting, setIsStarting] = useState(false)
+  const [errorMsg, setErrorMsg] = useState('')
+
+  const isValidSid = (sid: string) => /^[A-Za-z]\d{6}$/.test(sid)
+  const canStart = teamName.trim() && isValidSid(sid1) && (sid2 === '' || isValidSid(sid2))
+
+  const handleInitiate = async () => {
+    if (!canStart) return
+    setIsStarting(true)
+    setErrorMsg('')
+    const res = await onStart(teamName, venue, sid1, sid2)
+    if (res?.error) {
+      setErrorMsg(res.error)
+      setIsStarting(false)
+    }
+  }
 
   return (
     <div className="flex flex-col flex-1 text-center space-y-12 font-sans py-8">
@@ -26,6 +44,20 @@ export function StartScreen({ onStart }: { onStart: (teamName: string, venue: st
 
       <div className="space-y-4 max-w-sm mx-auto w-full bg-retro-panel p-6 animate-in zoom-in-95 duration-700 delay-300 fill-mode-both">
         <input 
+          className="w-full bg-black/80 border-4 border-white/50 text-white p-4 font-mono outline-none focus:border-retro-cyan focus:shadow-[4px_4px_0px_rgba(0,255,255,0.4)] transition-all placeholder:text-white/30 uppercase"
+          value={sid1}
+          onChange={(e) => setSid1(e.target.value.toUpperCase())}
+          placeholder="PLAYER 1 SID (e.g. A123456)_"
+          maxLength={7}
+        />
+        <input 
+          className="w-full bg-black/80 border-4 border-white/50 text-white p-4 font-mono outline-none focus:border-retro-cyan focus:shadow-[4px_4px_0px_rgba(0,255,255,0.4)] transition-all placeholder:text-white/30 uppercase"
+          value={sid2}
+          onChange={(e) => setSid2(e.target.value.toUpperCase())}
+          placeholder="PLAYER 2 SID (OPTIONAL)_"
+          maxLength={7}
+        />
+        <input 
           className="w-full bg-black/80 border-4 border-white/50 text-white p-4 font-mono outline-none focus:border-retro-cyan focus:shadow-[4px_4px_0px_rgba(0,255,255,0.4)] transition-all placeholder:text-white/30"
           value={teamName}
           onChange={(e) => setTeamName(e.target.value)}
@@ -41,8 +73,12 @@ export function StartScreen({ onStart }: { onStart: (teamName: string, venue: st
           <option value="Cebu">CEBU</option>
         </select>
         
-        <Button onClick={() => onStart(teamName, venue)} className="w-full mt-6" disabled={!teamName.trim()}>
-          [ INITIATE ]
+        {errorMsg && (
+          <p className="text-retro-pink font-mono text-sm tracking-widest text-center animate-pulse">{errorMsg}</p>
+        )}
+
+        <Button onClick={handleInitiate} className="w-full mt-6" disabled={!canStart || isStarting}>
+          {isStarting ? '[ VERIFYING... ]' : '[ INITIATE ]'}
         </Button>
       </div>
 
