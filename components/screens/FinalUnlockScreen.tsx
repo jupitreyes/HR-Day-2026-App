@@ -35,6 +35,11 @@ export function FinalUnlockScreen({ onNext }: { onNext: () => void }) {
           <p className="font-sans font-semibold text-xl leading-relaxed text-center relative z-10">
             Combine and unscramble your station keys to name the practice that turns plans into coordinated delivery by aligning people, priorities, and pace.
           </p>
+          <div className="flex justify-center flex-wrap gap-4 relative z-10">
+            <span className="bg-black/80 border-2 border-retro-cyan text-retro-cyan px-4 py-2 font-mono font-bold tracking-widest shadow-[0_0_10px_rgba(0,255,255,0.2)]">AEGANM</span>
+            <span className="bg-black/80 border-2 border-retro-cyan text-retro-cyan px-4 py-2 font-mono font-bold tracking-widest shadow-[0_0_10px_rgba(0,255,255,0.2)]">TMEN</span>
+            <span className="bg-black/80 border-2 border-retro-cyan text-retro-cyan px-4 py-2 font-mono font-bold tracking-widest shadow-[0_0_10px_rgba(0,255,255,0.2)]">JPECTOR</span>
+          </div>
           <input 
             className="w-full bg-black/80 border-4 border-retro-pink/50 text-retro-pink p-5 font-mono font-bold text-2xl text-center outline-none focus:border-retro-pink focus:shadow-[4px_4px_0px_rgba(255,0,255,0.4)] uppercase tracking-widest transition-all relative z-10"
             value={finalAnswer}
